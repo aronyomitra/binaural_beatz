@@ -3,7 +3,9 @@ const globalDefaults = {
     frequencyRight: 156,
     panLeft: -1,
     panRight: 1,
-    waveType: "sine"
+    waveType: "sine",
+
+    firstTimePlay: true
 }
 
 let globalAudioVars = {
@@ -43,6 +45,21 @@ function setupAudio() {
 
     globalAudioVars.pannerNodeRight = globalAudioVars.audioContext.createStereoPanner();
     globalAudioVars.pannerNodeRight.pan.value = globalDefaults.panRight;
+
+    globalAudioVars.oscRight.connect(globalAudioVars.pannerNodeRight).connect(globalAudioVars.audioContext.destination);
+}
+
+function createNewOscillatorNodes(type, frequencyLeft, frequencyRight) {
+
+    globalAudioVars.oscLeft = globalAudioVars.audioContext.createOscillator();
+    globalAudioVars.oscLeft.type = type;
+    globalAudioVars.oscLeft.frequency.value = frequencyLeft;
+
+    globalAudioVars.oscLeft.connect(globalAudioVars.pannerNodeLeft).connect(globalAudioVars.audioContext.destination);
+
+    globalAudioVars.oscRight = globalAudioVars.audioContext.createOscillator();
+    globalAudioVars.oscRight.type = type;
+    globalAudioVars.oscRight.frequency.value = frequencyRight;
 
     globalAudioVars.oscRight.connect(globalAudioVars.pannerNodeRight).connect(globalAudioVars.audioContext.destination);
 }
