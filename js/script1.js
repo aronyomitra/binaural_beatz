@@ -3,6 +3,7 @@ const globalDefaults = {
     frequencyRight: 156,
     panLeft: -1,
     panRight: 1,
+    defaultVolume: 1,
     waveType: "sine",
 
     firstTimePlay: true
@@ -25,7 +26,14 @@ window.onload = function() {
     $("#frequencyRight").val(globalDefaults.frequencyRight);
     // setupAudio();
 
+    document.querySelector("#volumeSlider").addEventListener("change", function() {
+
+        globalAudioVars.gainNodeLeft.gain.value = this.value;
+        globalAudioVars.gainNodeRight.gain.value = this.value;
+    });
 }
+
+
 
 function setupAudio() {
 
@@ -35,8 +43,14 @@ function setupAudio() {
     globalAudioVars.pannerNodeLeft = globalAudioVars.audioContext.createStereoPanner();
     globalAudioVars.pannerNodeLeft.pan.value = globalDefaults.panLeft;
     
+    globalAudioVars.gainNodeLeft = globalAudioVars.audioContext.createGain();
+    globalAudioVars.gainNodeLeft.gain.value = globalDefaults.defaultVolume;
+
     globalAudioVars.pannerNodeRight = globalAudioVars.audioContext.createStereoPanner();
     globalAudioVars.pannerNodeRight.pan.value = globalDefaults.panRight;
+
+    globalAudioVars.gainNodeRight = globalAudioVars.audioContext.createGain();
+    globalAudioVars.gainNodeRight.gain.value = globalDefaults.defaultVolume;
 
     let frequencyLeft = document.querySelector("#frequencyLeft").value;
     let frequencyRight = document.querySelector("#frequencyRight").value;
@@ -50,13 +64,13 @@ function createNewOscillatorNodes(type, frequencyLeft, frequencyRight) {
     globalAudioVars.oscLeft.type = type;
     globalAudioVars.oscLeft.frequency.value = frequencyLeft;
 
-    globalAudioVars.oscLeft.connect(globalAudioVars.pannerNodeLeft).connect(globalAudioVars.audioContext.destination);
+    globalAudioVars.oscLeft.connect(globalAudioVars.gainNodeLeft).connect(globalAudioVars.pannerNodeLeft).connect(globalAudioVars.audioContext.destination);
 
     globalAudioVars.oscRight = globalAudioVars.audioContext.createOscillator();
     globalAudioVars.oscRight.type = type;
     globalAudioVars.oscRight.frequency.value = frequencyRight;
 
-    globalAudioVars.oscRight.connect(globalAudioVars.pannerNodeRight).connect(globalAudioVars.audioContext.destination);
+    globalAudioVars.oscRight.connect(globalAudioVars.gainNodeRight).connect(globalAudioVars.pannerNodeRight).connect(globalAudioVars.audioContext.destination);
 }
 
 function generateAudio() {
