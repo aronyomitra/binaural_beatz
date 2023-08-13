@@ -32,12 +32,24 @@
             <br>
             <div class="row">
                 <div class="col-sm-6">
-                    <div id="leftInput">
+                    <div class="input-group" id="leftInput">
                         <input type="number" id="frequencyLeft" class="form-control" value="">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="playingLeft" checked>
+                                <!-- <label for="playingLeft">Playing</label> -->
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div id="rightInput">
+                    <div class= "input-group" id="rightInput">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="playingRight" checked>
+                            </div>
+                        </div>
                         <input type="number" id="frequencyRight" class="form-control" value="">
                     </div>
                 </div>
