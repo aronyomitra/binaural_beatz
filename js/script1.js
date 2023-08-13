@@ -24,12 +24,15 @@ window.onload = function() {
 
     $("#frequencyLeft").val(globalDefaults.frequencyLeft);
     $("#frequencyRight").val(globalDefaults.frequencyRight);
+    $("#volumeSlider").val(globalDefaults.defaultVolume);
     // setupAudio();
 
     document.querySelector("#volumeSlider").addEventListener("change", function() {
 
-        globalAudioVars.gainNodeLeft.gain.value = this.value;
-        globalAudioVars.gainNodeRight.gain.value = this.value;
+        if (!globalDefaults.firstTimePlay) {
+            globalAudioVars.gainNodeLeft.gain.value = this.value;
+            globalAudioVars.gainNodeRight.gain.value = this.value;
+        }
     });
 }
 
@@ -44,13 +47,13 @@ function setupAudio() {
     globalAudioVars.pannerNodeLeft.pan.value = globalDefaults.panLeft;
     
     globalAudioVars.gainNodeLeft = globalAudioVars.audioContext.createGain();
-    globalAudioVars.gainNodeLeft.gain.value = globalDefaults.defaultVolume;
+    globalAudioVars.gainNodeLeft.gain.value = document.querySelector("#volumeSlider").value;
 
     globalAudioVars.pannerNodeRight = globalAudioVars.audioContext.createStereoPanner();
     globalAudioVars.pannerNodeRight.pan.value = globalDefaults.panRight;
 
     globalAudioVars.gainNodeRight = globalAudioVars.audioContext.createGain();
-    globalAudioVars.gainNodeRight.gain.value = globalDefaults.defaultVolume;
+    globalAudioVars.gainNodeRight.gain.value = document.querySelector("#volumeSlider").value;
 
     let frequencyLeft = document.querySelector("#frequencyLeft").value;
     let frequencyRight = document.querySelector("#frequencyRight").value;
