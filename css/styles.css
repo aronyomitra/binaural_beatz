@@ -1,0 +1,15 @@
+.media-button {
+    cursor: pointer;
+}
+
+.media-button-play {
+
+    width: 25px;
+    height: 25px;
+}
+
+.media-button-pause {
+
+    width: 50px;
+    height: 50px;
+}
